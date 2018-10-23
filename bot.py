@@ -18,7 +18,10 @@ text_messages = {
     'wrong_chat':
         u'Hi there!\nThanks for trying me out!\n'
         u'We hope you find this useful. \n For any feedback/comments, please message @... \n'
-        u'https://t.me/breadtest_bot'
+        u'https://t.me/breadtest_bot',
+    'feedback':
+	u'Feel free to leave down any feedback/suggestions at https://goo.gl/forms/zaOOUhiJhH8RzlZx2 \n'
+	u'We appreciate all kinds of feedback!'
 }
 
 #bf_menu_tdy = format_menu(bf_menu[tdy])
@@ -30,7 +33,7 @@ def is_api_group(chat_id):
   
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-	#bot.reply_to(message, "Hello " + message.first_name + text_messages['welcome'])
+  #bot.reply_to(message, "Hello " + message.first_name + text_messages['welcome'])
   bot.reply_to(message, text_messages['welcome'])
     
 @bot.message_handler(commands=['info'])
@@ -38,8 +41,12 @@ def on_info(message):
   if not is_api_group(message.chat.id):
       bot.reply_to(message, text_messages['wrong_chat'])
       return 
-
   bot.reply_to(message, text_messages['info'])
+	
+@bot.message_handler(commands=['feedback'])
+def on_feedback(message):
+  bot.reply_to(message, text_messages['feedback']
+	
     
 def gen_markup():
   markup = InlineKeyboardMarkup()
