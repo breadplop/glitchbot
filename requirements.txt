@@ -1,0 +1,4 @@
+Flask
+PyTelegramBotAPI
+python-telegram-bot==11.1.0
+pandas
