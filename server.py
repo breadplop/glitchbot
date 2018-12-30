@@ -1,5 +1,6 @@
 import flask, telebot
 from bot import bot
+import datetime as dt
 
 app = flask.Flask(__name__)
 WEBHOOK_URL_PATH = "/{}".format(bot.token)
@@ -9,7 +10,7 @@ index = open('static/index.html').read()
 # Process index page
 @app.route('/')
 def root():
-    print('index!')
+    print('index! \n datetime is ', dt.datetime.today())
     return index # 'xd' # flask.send_from_directory('/static', 'index.html')
 
 
