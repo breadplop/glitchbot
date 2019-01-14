@@ -4,42 +4,34 @@ from os import environ
 from load_data import load_data, format_menu, get_indv_menus, format_date
 import datetime as dt
 
+import pymongo
+from pprint import pprint
+
 bot = TeleBot(environ['TELEGRAM_TOKEN'])
 bf_menu, dinz_menu = load_data()
 
 text_messages = {
     'welcome':
-        u'Hello there! I am your new Eusoff Meal Bot.'
-        u' This is a test',
+        u'Hello there! I am your new Eusoff Meal Bot.\n'
+        u'\nTo share: https://t.me/eusoff_bot',
 
     'info':
         u'Hello there!\n'
         u'I am a bot that will provide the breakfast and dinner menus of Eusoff\n',
 
-    'wrong_chat':
-        u'Hi there!\nThanks for trying me out!\n'
-        u'We hope you find this useful. \n For any feedback/comments, please message @... \n'
-        u'https://t.me/breadtest_bot',
       'feedback':
         u'Feel free to leave down any suggestions/opinions at https://goo.gl/forms/zaOOUhiJhH8RzlZx2 \n'
         u'We appreciate all kinds of feedback!'
 }
 
 
-def is_api_group(chat_id):
-    return chat_id == GROUP_CHAT_ID
-  
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-	#bot.reply_to(message, "Hello " + message.first_name + text_messages['welcome'])
   bot.reply_to(message, text_messages['welcome'])
+  bot.send_message(message.chat.id, "Hungry? Let's get started!", reply_markup=gen_markup())
     
 @bot.message_handler(commands=['info'])
 def on_info(message):
-  if not is_api_group(message.chat.id):
-      bot.reply_to(message, text_messages['wrong_chat'])
-      return 
-
   bot.reply_to(message, text_messages['info'])
 
 @bot.message_handler(commands=['feedback'])
@@ -63,11 +55,17 @@ def gen_markup():
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-  #bot.answer_callback_query(call.id, {text:"Answer is No"})
-  #get_indv_menus(bf_menu,format_date(tdy_raw))
-  #menu = get_indv_menus(bf_menu,format_date(message.date))
-  #print("does it come here? ", call)
   date = dt.datetime.fromtimestamp(call.message.date)
+  entry = {
+    'date': date,
+    'button': call.data,
+    'username': call.message.chat.username,
+    'type': 'callbackquery'
+  }
+  print(call)
+  if call.data != 'get_menu':
+    db_collection.insert_one(entry)
+    
   if call.data=="get_menu":
     bot.send_message(call.message.chat.id, 'Select one:', parse_mode='Markdown',reply_markup=gen_markup())
   if call.data == "cb_tdy_bf":
@@ -99,8 +97,28 @@ def echo_all(message):
 def listener(messages):
     for m in messages:
         print(str(m))
+        log = {
+          'date': dt.datetime.fromtimestamp(m.date),
+          'text': m.json['text'],
+          'username': m.json['from']['username'],
+          'type': 'message'
+        }
+        db_collection.insert_one(log)
+        print('inserted to mongo db')
+
+
+user =  environ['MONGO_USERNAME']
+password =  environ['MONGO_PASSWORD']
+database =  environ['MONGO_DB_NAME']
+connection_end = 'cluster0-shard-00-00-dbct0.mongodb.net:27017,cluster0-shard-00-01-dbct0.mongodb.net:27017,cluster0-shard-00-02-dbct0.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true' 
+
+client = pymongo.MongoClient("mongodb://" + user + ":" + password + "@" + connection_end)
+db = client[database]
+db_collection = db.testing #change this to start another collection
+pprint(client.list_database_names())
+
 
 
 bot.set_update_listener(listener)
-
 bot.set_webhook("https://{}.glitch.me/{}".format(environ['PROJECT_NAME'], environ['TELEGRAM_TOKEN']))
+
