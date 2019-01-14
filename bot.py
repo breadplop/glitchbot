@@ -25,10 +25,6 @@ text_messages = {
         u'We appreciate all kinds of feedback!'
 }
 
-
-def is_api_group(chat_id):
-    return chat_id == GROUP_CHAT_ID
-  
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
 	#bot.reply_to(message, "Hello " + message.first_name + text_messages['welcome'])
@@ -36,10 +32,6 @@ def send_welcome(message):
     
 @bot.message_handler(commands=['info'])
 def on_info(message):
-  if not is_api_group(message.chat.id):
-      bot.reply_to(message, text_messages['wrong_chat'])
-      return 
-
   bot.reply_to(message, text_messages['info'])
 
 @bot.message_handler(commands=['feedback'])
