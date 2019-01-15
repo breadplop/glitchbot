@@ -24,7 +24,7 @@ def format_menu(menu):
     for word in words_to_bold:
         res = res.replace(word, '*{0}*'.format(word.upper()))
     for word in words_to_italicized:
-        res = res.replace(word, '_{0}_\n'.format(word))
+        res = res.replace(word, '\n_{0}_'.format(word))
     res = res.replace("/restart", "")
     res = res.replace("  ", "")
     res = res.replace("\n ", "\n")
@@ -32,6 +32,7 @@ def format_menu(menu):
 
 
 def get_indv_menus(type, raw_date):
+    bf_menu, dinz_menu = load_data()
     if type == 'Breakfast':
         overall_menu = bf_menu
     elif type == 'Dinner':
