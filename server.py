@@ -1,6 +1,6 @@
-import flask
-import telebot
-from bot import bot
+import flask, telebot
+from eh_faq_bot import bot
+# from bot import bot
 import datetime as dt
 
 app = flask.Flask(__name__)
@@ -9,11 +9,10 @@ index = open('static/index.html').read()
 
 
 # Process index page
-# 'xd' # flask.send_from_directory('/static', 'index.html')
 @app.route('/')
 def root():
     print('index! \n datetime is ', dt.datetime.today())
-    return index
+    return index # 'xd' # flask.send_from_directory('/static', 'index.html')
 
 
 # Process webhook calls
@@ -27,6 +26,6 @@ def webhook():
     else:
         flask.abort(403)
 
-
 if __name__ == "__main__":
-    app.run()
+  
+  app.run()
