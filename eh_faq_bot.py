@@ -1,18 +1,18 @@
 import telebot
 from telebot import TeleBot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-from os import environ
+from os import environ, getenv
+from dotenv import load_dotenv
 from load_data_faq import get_indv_menus, load_data, get_office_info, get_SCRC_info, get_JCRC_info, get_blockcomm_info, get_culture_info, get_sports_info, get_ss_info, get_othercomm_info, get_sponsorship_info, get_pdpa_info, get_finance_info, get_external_info, get_internal_info, get_cultural_info, get_common_info, get_others_info, get_rooms_info, get_printer_info, get_media_equipment_info, get_ew_room_info, get_media_services_info, get_report_info, get_compulsory_info, get_graduating_info, get_cca_points_info, get_bonus_points_info, get_external_cca_info, get_exchange_info, get_monitoring_info, get_masters_list_info, get_demerit_info, get_pal_info, get_eoty_info, get_hallex_info, get_topfield_info, get_general_awards_info
 import datetime as dt
 import csv
 from mongodb_helper import returnToday
 import datetime as dt
 import json
-
-
 import pymongo
 from pprint import pprint
 
+load_dotenv()
 
 bot = TeleBot(environ['TELEGRAM_TOKEN'])
 bf_menu, dinz_menu = load_data()
@@ -316,12 +316,12 @@ def callback_query(call):
         graduating_info = get_graduating_info()
         bot.send_message(call.message.chat.id, graduating_info, parse_mode='Markdown', reply_markup=points_markup())
     if call.data =="get_points_system":
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/CCA_points_1.png', 'rb'))
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/CCA_points_2.png', 'rb'))
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/CCA_points_3.png', 'rb'))
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/CCA_points_4.png', 'rb'))
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/CCA_points_5.png', 'rb'))
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/CCA_points_6.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/CCA_points_1.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/CCA_points_2.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/CCA_points_3.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/CCA_points_4.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/CCA_points_5.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/CCA_points_6.png', 'rb'))
         bot.send_message(call.message.chat.id, "The points system is as indicated above.", parse_mode='Markdown', reply_markup=points_markup())
     if call.data =="get_things2note":
         bot.send_message(call.message.chat.id, 'Select One:', parse_mode='Markdown', reply_markup=points_notes())
@@ -329,7 +329,7 @@ def callback_query(call):
         cca_points_info = get_cca_points_info()
         bot.send_message(call.message.chat.id, cca_points_info, parse_mode='Markdown', reply_markup=points_notes())
     if call.data == "get_bonus_points":
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/Bonus_points.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/Bonus_points.png', 'rb'))
         bonus_points_info = get_bonus_points_info()
         bot.send_message(call.message.chat.id, bonus_points_info, parse_mode='Markdown', reply_markup=points_notes())
     if call.data =="get_external_cca":
@@ -348,15 +348,15 @@ def callback_query(call):
         demerit_info = get_demerit_info()
         bot.send_message(call.message.chat.id, demerit_info, parse_mode='Markdown', reply_markup=demerit_markup())
     if call.data == "get_offense_type":
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/Offense_1.png', 'rb'))
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/Offense_2.png', 'rb'))
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/Offense_3.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/Offense_1.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/Offense_2.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/Offense_3.png', 'rb'))
         bot.send_message(call.message.chat.id, "Offense types and their relevant demerit points are shown above", parse_mode='Markdown', reply_markup=demerit_markup())
     if call.data == "get_housing_agreement":
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/Agreement_1.png', 'rb'))
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/Agreement_2.png', 'rb'))
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/Agreement_3.png', 'rb'))
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/Agreement_4.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/Agreement_1.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/Agreement_2.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/Agreement_3.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/Agreement_4.png', 'rb'))
         bot.send_message(call.message.chat.id, "The Schedule of Administrative Fees is to be read in conjunction with the Housing Agreement and Eusoff Hall’s Rules and Regulations.", parse_mode='Markdown', reply_markup=demerit_markup())
     if call.data == "get_pal":
         pal_info = get_pal_info()
@@ -364,7 +364,7 @@ def callback_query(call):
     if call.data == "get_tea":
         bot.send_message(call.message.chat.id, "Select Award Type:", parse_mode='Markdown', reply_markup=award_markup())
     if call.data == "get_map":
-        bot.send_photo(call.message.chat.id, photo=open('/Users/quahjingwen/Desktop/CCA_points/map.png', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('CCA_points/map.png', 'rb'))
         bot.send_message(call.message.chat.id, "The Map of Eusoff Hall is as shown above", parse_mode='Markdown', reply_markup=finance_markup())
     if call.data == "get_eoty":
         eoty_info = get_eoty_info()
