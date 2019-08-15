@@ -1,4 +1,6 @@
-# Python3 Telegram Bot  
+# Python3 Telegram Bot 
+> Telegram Bot which shows users of Eusoff Hall their meal menus for the current and next day.
+
 ### server.py  
 > Contains server logic and delivers telegram updates to bot logic.  
 
